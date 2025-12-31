@@ -1,3 +1,6 @@
 .claude
 venv
 __pycache__
+scraper.log
+failed_urls.json
+scraper_progress.json
