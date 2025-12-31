@@ -417,7 +417,7 @@ async def main():
 
     try:
         # Scrape page 52 (can adjust range as needed)
-        await scraper.scrape_pages(start_page=1, end_page=2)
+        await scraper.scrape_pages(start_page=1, end_page=55)
 
         # Optionally retry failed URLs
         if scraper.failed_urls:
