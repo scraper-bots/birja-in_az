@@ -81,25 +81,27 @@ Median prices increase with room count, but not proportionally. The jump from 3-
 
 ---
 
-## 4. Regional Price Premium Analysis
+## 4. Listing Engagement & Market Demand Signals
 
-### Finding: Significant Price Disparities Across Regions
+### Finding: Higher Engagement Correlates with Lower Prices - Volume Market Rules
 
-![Price per Square Meter by Region](charts/04_price_per_sqm_by_region.png)
+![Engagement Analysis](charts/04_engagement_analysis.png)
 
 **What This Shows:**
-Price per square meter varies dramatically across regions, ranging from 778 AZN/m² to over 2,000 AZN/m². Central business districts command the highest premiums.
+Most listings receive low to medium engagement (<500 views), but interestingly, properties with higher view counts tend to have lower median prices. The viral engagement category (>2K views) shows the lowest median prices at around 62K AZN.
 
 **Business Impact:**
-- **Value Engineering**: A 2.5x price difference between highest and lowest price regions indicates arbitrage opportunities
-- **Development ROI**: Building in premium districts requires justification through amenities, location, or brand
-- **Affordability Analysis**: Lower-priced regions may attract first-time buyers or value-conscious segments
-- **Gentrification Potential**: Districts with low current prices but good infrastructure may appreciate
+- **Pricing Strategy**: Lower-priced properties generate more buyer interest and platform traffic
+- **Market Accessibility**: The inverse price-engagement relationship confirms strong demand at affordable price points
+- **Marketing Efficiency**: Properties priced under 100K naturally attract more attention, reducing marketing costs
+- **Volume Opportunity**: High engagement at lower price points validates volume-based business models
+- **Premium Challenge**: Higher-priced properties require targeted marketing as they generate less organic traffic
 
 **Recommended Actions:**
-- Map development plans to price-per-sqm capacity of target customer segments
-- Identify emerging neighborhoods before price appreciation accelerates
-- Use price-per-sqm as a benchmark for competitive pricing strategies
+- Price competitively to maximize organic visibility and reduce time-to-sale
+- For premium properties, invest in targeted marketing rather than relying on platform traffic
+- Platform operators should optimize for high-volume, affordable segment where engagement is highest
+- Use engagement data to identify mispriced properties (high price + high views may indicate negotiation opportunity)
 
 ---
 

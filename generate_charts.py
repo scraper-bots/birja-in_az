@@ -185,35 +185,53 @@ if len(df_rooms) > 50:
     plt.close()
     print("✓ Generated: Price by Rooms")
 
-# === CHART 4: Average Price per Square Meter by Region (Top 12) ===
-df_area = df_azn[df_azn['area_clean'].notna()]
-if len(df_area) > 100:
-    df_area['price_per_sqm'] = df_area['price_clean'] / df_area['area_clean']
-    # Filter outliers
-    df_area = df_area[(df_area['price_per_sqm'] > 100) & (df_area['price_per_sqm'] < 10000)]
+# === CHART 4: Listing Engagement Analysis - View Count Insights ===
+df_views = df_azn[df_azn['view_count'].notna()].copy()
+if len(df_views) > 100:
+    # Convert view_count to numeric
+    df_views['views_numeric'] = pd.to_numeric(df_views['view_count'], errors='coerce')
+    df_views = df_views[df_views['views_numeric'].notna() & (df_views['views_numeric'] > 0)]
 
-    region_price_sqm = df_area.groupby('region_clean').agg({
-        'price_per_sqm': 'median',
+    # Create view categories
+    view_bins = [0, 100, 500, 1000, 2000, 10000]
+    view_labels = ['Low (<100)', 'Medium (100-500)', 'High (500-1K)', 'Very High (1K-2K)', 'Viral (>2K)']
+    df_views['view_category'] = pd.cut(df_views['views_numeric'], bins=view_bins, labels=view_labels)
+
+    # Analyze price vs engagement
+    view_analysis = df_views.groupby('view_category').agg({
+        'price_clean': 'median',
         'elan_id': 'count'
-    })
-    region_price_sqm = region_price_sqm[region_price_sqm['elan_id'] >= 15].sort_values('price_per_sqm', ascending=False).head(12)
+    }).dropna()
 
-    plt.figure(figsize=(14, 6))
-    bars = plt.barh(range(len(region_price_sqm)), region_price_sqm['price_per_sqm'], color='#D62828')
-    plt.yticks(range(len(region_price_sqm)), region_price_sqm.index)
-    plt.xlabel('Price per Square Meter (AZN/m²)', fontweight='bold')
-    plt.title('Most Expensive Regions - Price per Square Meter', fontweight='bold', fontsize=14)
-    plt.grid(axis='x', alpha=0.3)
-    plt.gca().invert_yaxis()
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
 
-    # Add value labels
-    for i, v in enumerate(region_price_sqm['price_per_sqm']):
-        plt.text(v + 20, i, f'{v:.0f} ₼/m²', va='center', fontweight='bold')
+    # Left: Listing count by engagement
+    colors1 = ['#E63946', '#F18F01', '#06A77D', '#2E86AB', '#7209B7']
+    bars1 = ax1.bar(range(len(view_analysis)), view_analysis['elan_id'], color=colors1[:len(view_analysis)])
+    ax1.set_xticks(range(len(view_analysis)))
+    ax1.set_xticklabels(view_analysis.index, rotation=45, ha='right')
+    ax1.set_ylabel('Number of Listings', fontweight='bold')
+    ax1.set_title('Listing Distribution by Engagement Level', fontweight='bold')
+    ax1.grid(axis='y', alpha=0.3)
+
+    for i, v in enumerate(view_analysis['elan_id']):
+        ax1.text(i, v + max(view_analysis['elan_id'])*0.02, str(int(v)), ha='center', va='bottom', fontweight='bold')
+
+    # Right: Median price by engagement
+    bars2 = ax2.bar(range(len(view_analysis)), view_analysis['price_clean']/1000, color=colors1[:len(view_analysis)])
+    ax2.set_xticks(range(len(view_analysis)))
+    ax2.set_xticklabels(view_analysis.index, rotation=45, ha='right')
+    ax2.set_ylabel('Median Price (thousand AZN)', fontweight='bold')
+    ax2.set_title('Median Price by Engagement Level', fontweight='bold')
+    ax2.grid(axis='y', alpha=0.3)
+
+    for i, v in enumerate(view_analysis['price_clean']):
+        ax2.text(i, v/1000 + max(view_analysis['price_clean'])/1000*0.02, f'{v/1000:.0f}K', ha='center', va='bottom', fontweight='bold')
 
     plt.tight_layout()
-    plt.savefig('charts/04_price_per_sqm_by_region.png', dpi=300, bbox_inches='tight')
+    plt.savefig('charts/04_engagement_analysis.png', dpi=300, bbox_inches='tight')
     plt.close()
-    print("✓ Generated: Price per Sqm by Region")
+    print("✓ Generated: Engagement Analysis")
 
 # === CHART 5: Market Activity - Listings Over Time ===
 df['date_posted_clean'] = pd.to_datetime(df['date_posted'], format='%d %B %Y', errors='coerce')
