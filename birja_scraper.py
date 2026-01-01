@@ -159,7 +159,11 @@ class BirjaScraper:
                 link = title_elem.find('a')
                 if link:
                     data['title'] = link.find('span', itemprop='name').text.strip() if link.find('span', itemprop='name') else link.text.strip()
-                    data['url'] = self.base_url + link.get('href', '')
+                    # Clean URL by removing extra whitespace
+                    href = link.get('href', '')
+                    # Replace multiple spaces with single space, then replace space with hyphen if needed
+                    href = re.sub(r'\s+', '-', href.strip())
+                    data['url'] = self.base_url + href
 
             # Extract price
             price_elem = listing_html.find('span', class_='value_cost_adv')

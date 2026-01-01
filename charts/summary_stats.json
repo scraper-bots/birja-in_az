@@ -1,0 +1,24 @@
+{
+  "total_listings": 1150,
+  "valid_prices": 1150,
+  "median_price": 78500,
+  "average_price": 147868,
+  "price_min": 5,
+  "price_max": 9000000,
+  "top_regions": {
+    "Bakı": 1113,
+    "Bölgələr": 37
+  },
+  "property_types": {
+    "House/Villa": 355,
+    "New Building": 300,
+    "Commercial": 213,
+    "Apartment": 159,
+    "Rental": 123
+  },
+  "seller_distribution": {
+    "Agent": 882,
+    "Owner": 265,
+    "Unknown": 3
+  }
+}
